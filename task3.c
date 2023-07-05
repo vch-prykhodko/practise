@@ -1,29 +1,41 @@
 #include <stdio.h>
 
-long long countNumbers(int p) {
-    long long withoutTriples[p + 1];
-    long long withTriples[p + 1];
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-    withoutTriples[1] = 2; // Кількість чисел із 1 розрядом без тріплетів (5 та 9)
-    withTriples[1] = 0; // Кількість чисел із 1 розрядом з тріплетом (неможливо утворити)
+int main()
+{
+    int p; 
 
-    for (int i = 2; i <= p; i++) {
-        withoutTriples[i] = withoutTriples[i - 1] + withTriples[i - 1];
-        withTriples[i] = withoutTriples[i - 1];
+    printf("Input number\n*This number must be less or equal 30*\nYour value: "); // Підказка для користувача, яка просить ввести число
+    scanf("%d", &p); 
+
+    while (p < 0 || p > 30) // Перевірка валідності числа. 
+    {
+        printf("!!! Invalid number !!!\n*This number must be less or equal 30*\nYour value: ");
+        scanf("%d", &p);
+    }
+    
+    int result; // Оголошення змінної, в яку буде записаний результат
+
+    if (p < 3) // Умова для чисел, які меньше 3-го розряду (вони не можуть мати три однакових числа в ряд, бо всього їх один або два)
+    {
+        result = pow(2, p); // Обчислення результату при даній умові
     }
 
-    return withoutTriples[p] + withTriples[p];
-}
+    if (p == 3) // Умова для чисел, які належать до третьго розряду (можливі варіанти лише два (999 та 555))
+    {
+        result = pow(2, p) - 2; // Обчислення результату при даній умові
+    }
 
-int main() {
-    int p;
+    if (p >= 4) // Умова для чисел, які більше третього розряду. Там можливі більше двох варіантів, тож використовується формула з методичних вказівок
+    {
+        result = pow(2, p) - (p - 2); // Обчислення результату при даній умові
+    }
+    
+    
 
-    printf("Введіть кількість розрядів (p ≤ 30): ");
-    scanf("%d", &p);
-
-    long long result = countNumbers(p);
-
-    printf("Кількість чисел із %d розрядами: %lld\n", p, result);
-
+    printf("You can make %d numbers", result); 
     return 0;
 }
